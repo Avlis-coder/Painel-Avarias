@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Indicadores de não conformidades da Loja 30: fornecedores, pendências, valores, origens, tipos e categorias.">
+  <meta name="theme-color" content="#142738"><title>Não conformidades · Loja 30</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css">
+  <script src="data.js" defer></script><script src="core.js" defer></script><script src="app.js" defer></script>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar" aria-label="Navegação principal">
+    <a class="brand" href="#overview" aria-label="Controle de não conformidades, início"><span class="brand-mark">NC</span><span><span class="brand-name">Controle de NC</span><span class="brand-sub">Loja 30 · Guajajaras</span></span></a>
+    <div class="nav-label">INDICADORES</div>
+    <nav id="navigation"></nav>
+    <div class="sidebar-foot"><span class="badge badge-neutral">Base da loja 30</span><p>Uma visão dos registros,<br>das causas e das pendências.</p><span id="sidebar-period"></span></div>
+  </aside>
+  <button class="sidebar-overlay" id="sidebar-overlay" aria-label="Fechar navegação"></button>
+  <div class="workspace">
+    <main id="main">
+      <header class="topbar">
+        <div><button class="icon-btn mobile-menu" id="mobile-menu" aria-label="Abrir navegação" aria-expanded="false">☰</button><div class="eyebrow">GESTÃO DE NÃO CONFORMIDADES</div><h1 id="page-title">Visão geral</h1><p id="page-subtitle">Carregando indicadores…</p></div>
+        <div class="top-actions"><button type="button" class="btn btn-ghost" id="print-button">Imprimir</button><button type="button" class="btn btn-primary" id="export-button">Exportar visão</button></div>
+      </header>
+      <section class="filter-panel" aria-label="Filtros dos indicadores">
+        <div class="filter-grid">
+          <div class="field"><label for="date-from">Data inicial</label><input type="date" id="date-from"></div>
+          <div class="field"><label for="date-to">Data final</label><input type="date" id="date-to"></div>
+          <div class="field"><label for="status-filter">Situação dos itens</label><select id="status-filter"><option value="">Todos os itens</option><option value="S">Itens com pendência</option><option value="N">Itens tratados</option></select></div>
+          <div class="field"><label for="origin-filter">Origem da NC</label><select id="origin-filter"><option value="">Todas as origens</option></select></div>
+        </div>
+        <div class="filter-more" id="more-filters" hidden>
+          <div class="filter-grid">
+            <div class="field"><label for="supplier-filter">Fornecedor · razão social</label><select id="supplier-filter"><option value="">Todos os fornecedores</option></select></div>
+            <div class="field"><label for="type-filter">Tipo da NC</label><select id="type-filter"><option value="">Todos os tipos</option></select></div>
+            <div class="field"><label for="category-filter">Categoria do produto</label><select id="category-filter"><option value="">Todas as categorias</option></select></div>
+            <div class="field"><label for="query-filter">Buscar nos registros</label><input type="search" id="query-filter" placeholder="Produto, NC ou razão social…"></div>
+          </div>
+        </div>
+        <div class="filter-actions"><div class="filter-summary" id="filter-summary" aria-live="polite"></div><div><button class="btn btn-ghost btn-small" type="button" id="more-button" aria-expanded="false" aria-controls="more-filters">Mais filtros</button><button class="btn btn-ghost btn-small" type="button" id="reset-button">Limpar filtros</button></div></div>
+        <div class="filter-chips" id="filter-chips"></div><p class="error-message" id="filter-error" role="alert" hidden></p>
+      </section>
+      <section id="kpis" class="kpi-grid" aria-label="Resumo do período"></section>
+      <div id="page-content" aria-live="polite" aria-busy="true"><div class="loading">Preparando a visão da loja…</div></div>
+      <footer class="meta-line" id="data-notes"></footer>
+    </main>
+  </div>
+</div>
+<div class="modal-backdrop" id="detail-backdrop" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="detail-title"><div class="modal-head"><div><div class="eyebrow">DETALHAMENTO DO ITEM</div><h2 id="detail-title">Registro da NC</h2></div><button class="icon-btn close-modal" id="close-detail" aria-label="Fechar detalhes">×</button></div><div class="modal-body" id="detail-body"></div></section></div>
+<noscript><p>Ative o JavaScript para visualizar os indicadores e utilizar os filtros.</p></noscript>
+</body></html>
