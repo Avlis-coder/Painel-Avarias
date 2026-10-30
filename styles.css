@@ -183,6 +183,13 @@ h3 { font-size: 14px; font-weight: 650; }
 .monthly-chart { overflow-x: auto; padding-bottom: 4px; }
 .monthly-chart svg { min-width: 1000px; }
 .monthly-chart svg .bar-value { font-size: 11px; font-weight: 650; fill: var(--ink); paint-order: stroke; stroke: white; stroke-width: 3px; }
+.sales-chart svg { min-width: 660px; }
+.monthly-chart svg .sales-rate-label { fill: var(--ink); font-size: 12px; font-weight: 650; }
+.monthly-chart svg .sales-rate-unavailable { fill: #edf1f4; stroke: #c7d0d9; stroke-dasharray: 4 4; }
+.sales-ratio-cell { color: var(--primary-dark); font-weight: 650; }
+.sales-warning { color: #835b1f; background: #fff7e8; border-color: #eadbbf; }
+.sales-warning svg { color: #aa7628; }
+.sales-card .kpi-value { font-size: clamp(20px, 1.9vw, 28px); }
 .monthly-chart svg .treatment-line { fill: none; stroke: #5278bd; stroke-width: 2.7px; stroke-linejoin: round; }
 .monthly-chart svg .generated-line { fill: none; stroke: #af7536; stroke-width: 2.7px; stroke-linejoin: round; stroke-dasharray: 7 5; }
 .monthly-chart svg .generated-dot { fill: #fff; stroke: #af7536; stroke-width: 2px; }

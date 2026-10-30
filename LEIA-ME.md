@@ -18,6 +18,10 @@ O pacote contém um site estático: index.html, styles.css, app.js, core.js, dat
 - Uma NC está 100% tratada quando todos os seus itens já foram tratados: 621 NCs tratadas e 390 com alguma pendência.
 - O gráfico mensal usa a data do registro. A planilha não informa a data de tratamento; a linha de NCs tratadas mostra a situação atual das NCs registradas em cada mês.
 - O comparativo mensal mostra o valor nas barras, as NCs geradas na linha tracejada e as NCs totalmente tratadas na linha contínua. As duas quantidades usam a mesma escala e também aparecem lado a lado na tabela mensal.
+- A página Avaria sobre vendas tem cards próprios, gráfico percentual e tabela mensal. Fórmula: valor de avaria ÷ vendas totais da unidade 30 × 100. O acumulado divide a soma das avarias pela soma das vendas; não é a média dos percentuais mensais.
+- O percentual de avaria sobre vendas e o total de vendas também aparecem em cards na Visão geral, junto de um gráfico mensal e um acesso ao indicador completo.
+- Vendas de janeiro a outubro de 2026 informadas pelo usuário: R$ 100.637.607,02. O indicador usa o escopo de todas as não conformidades já adotado no painel. Filtros de fornecedor, categoria, origem, tipo ou situação alteram a avaria considerada, mantendo as vendas totais da unidade como denominador.
+- As vendas foram informadas por mês. Em recortes diários que cobrem apenas parte de um mês da base, o percentual desse recorte fica indisponível, pois não há vendas diárias para compará-lo corretamente.
 - Origem: I = Interna / Depósito; A = Não conformidade na compra; F = Faltas; C = Divergência comercial; D = Devolução frente de loja.
 - Categorias: vínculo Produto = CODMDLOG com a base mercadológica. Sete itens sem correspondência permanecem nos totais e aparecem como Sem categoria na base.
 

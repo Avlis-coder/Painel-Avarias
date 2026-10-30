@@ -38,7 +38,40 @@
     for(const r of rows){const key=ncKey(r);if(ncStates.get(key)&&!counted.has(key)){counted.add(key);result[r.date.slice(0,7)]=(result[r.date.slice(0,7)]||0)+1;}}
     return result;
   }
+  function salesRatio(rows,sales,from,to,coverage={from:'2026-01-02',to:'2026-10-30'}){
+    const validDate=value=>typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)&&Number.isFinite(Date.parse(value+'T00:00:00Z'))&&new Date(value+'T00:00:00Z').toISOString().slice(0,10)===value;
+    const unavailable=()=>({months:[],totalLoss:0,totalSales:null,rate:null,available:false,reason:'invalid-period',partialMonths:[],missingMonths:[],zeroMonths:[]});
+    if(!validDate(from)||!validDate(to)||from>to||!validDate(coverage?.from)||!validDate(coverage?.to)||coverage.from>coverage.to)return unavailable();
+    const losses=new Map();
+    let totalLoss=0;
+    for(const row of rows){
+      if(row.date<from||row.date>to)continue;
+      const key=row.date.slice(0,7);
+      totalLoss+=row.value;
+      losses.set(key,(losses.get(key)||0)+row.value);
+    }
+    const partialMonths=[],missingMonths=[],zeroMonths=[],result=[];
+    const cursor=new Date(from.slice(0,7)+'-01T00:00:00Z'),last=new Date(to.slice(0,7)+'-01T00:00:00Z');
+    while(cursor<=last){
+      const key=cursor.toISOString().slice(0,7),monthFrom=key+'-01';
+      const monthTo=new Date(Date.UTC(cursor.getUTCFullYear(),cursor.getUTCMonth()+1,0)).toISOString().slice(0,10);
+      const requiredFrom=monthFrom>coverage.from?monthFrom:coverage.from,requiredTo=monthTo<coverage.to?monthTo:coverage.to;
+      const partial=requiredFrom>requiredTo||from>requiredFrom||to<requiredTo;
+      const rawSales=sales?.byMonth?.[key],monthlySales=typeof rawSales==='number'&&Number.isFinite(rawSales)&&rawSales>=0?rawSales:null;
+      const missing=monthlySales===null,zero=monthlySales===0;
+      if(partial)partialMonths.push(key);
+      if(missing)missingMonths.push(key);
+      if(zero)zeroMonths.push(key);
+      const reason=partial?'partial-period':missing?'missing-sales':zero?'zero-sales':'';
+      const loss=losses.get(key)||0,eligible=!reason;
+      result.push({key,loss,sales:monthlySales,rate:eligible?loss/monthlySales:null,eligible,reason});
+      cursor.setUTCMonth(cursor.getUTCMonth()+1);
+    }
+    const reason=partialMonths.length?'partial-period':missingMonths.length?'missing-sales':zeroMonths.length?'zero-sales':'';
+    const available=!reason,totalSales=available?result.reduce((value,month)=>value+month.sales,0):null;
+    return {months:result,totalLoss,totalSales,rate:available?totalLoss/totalSales:null,available,reason,partialMonths,missingMonths,zeroMonths};
+  }
   const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   function csv(matrix){return '\uFEFF'+matrix.map(row=>row.map(v=>{let s=typeof v==='number'?String(v).replace('.',','):String(v??'');if(typeof v!=='number'&&/^[=+\-@\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}).join(';')).join('\r\n');}
-  const api={norm,ncKey,sum,stats,filter,group,sort,months,treatmentByMonth,escapeHtml,csv};root.NCCore=api;if(typeof module!=='undefined')module.exports=api;
+  const api={norm,ncKey,sum,stats,filter,group,sort,months,treatmentByMonth,salesRatio,escapeHtml,csv};root.NCCore=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof globalThis!=='undefined'?globalThis:window);
